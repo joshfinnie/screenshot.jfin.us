@@ -1,0 +1,28 @@
+{
+  "name": "screenshot.jfin.us",
+  "version": "0.0.1",
+  "description": "A Node.js API that takes a screenshot of a requested page.",
+  "main": "server.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshfinnie/screenshot.jfin.us.git"
+  },
+  "keywords": [
+    "node.js",
+    "screenshot",
+    "api"
+  ],
+  "author": "Josh Finnie <josh@jfin.us>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joshfinnie/screenshot.jfin.us/issues"
+  },
+  "homepage": "https://github.com/joshfinnie/screenshot.jfin.us",
+  "dependencies": {
+    "body-parser": "^1.5.0",
+    "express": "^4.6.1"
+  }
+}

@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var logfmt = require("logfmt");
 var webshot = require('webshot');
 
 // Constants
@@ -15,39 +16,56 @@ var opt = {
   renderDelay: 15,
 };
 
-function logErrors(err, req, res, next) {
-  console.error(err.stack);
-  next(err);
+function validUrl(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+  '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+  '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+  '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+  '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+  '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  if(!pattern.test(str)) {
+    return false;
+  } else {
+    return true;
+  }
 }
- 
 
 // App
 var app = express();
 app.use(bodyParser.json())
 app.use(methodOverride());
-app.use(logErrors);
+app.use(logfmt.requestLogger());
 
 app.get('/', function (req, res) {
   if(req.query.token != API_KEY) {
     res.json({ status: 401, error: "Unauthorized" })
+    return res.end()
   }
-  var url = req.query.url || "www.google.com";
-  webshot(url, opt, function(err, renderStream) {
-    if(err) {
-      console.log(err);
-    }
-    var img;
-    img = "";
-    renderStream.on("data", function(data) {
-      return img += data.toString("binary");
+  if(req.query.url == null) {
+    res.json({ status: 400, error: "Bad Request", data: "Please include a url."})
+    return res.end()
+  }
+  if(validUrl(req.query.url)){
+    webshot(req.query.url, opt, function(err, renderStream) {
+      if(err) {
+        console.log(err);
+      }
+      var img;
+      img = "";
+      renderStream.on("data", function(data) {
+        return img += data.toString("binary");
+      });
+      return renderStream.on("end", function() {
+        res.setHeader("Content-Type", "image/png");
+        res.writeHead(200);
+        res.write(img, "binary");
+        return res.end();
+      });
     });
-    return renderStream.on("end", function() {
-      res.setHeader("Content-Type", "image/png");
-      res.writeHead(200);
-      res.write(img, "binary");
-      return res.end();
-    });
-  });
+  } else {
+    res.json({ status: 400, error: "Bad Request", data: "The URL you provided in not valid."})
+    return res.end()
+  }
 });
 
 app.listen(PORT, function () {

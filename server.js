@@ -4,7 +4,7 @@ var methodOverride = require('method-override');
 var webshot = require('webshot');
 
 // Constants
-var PORT = 1337;
+var PORT = Number(process.env.PORT || 1337);
 var API_KEY = '8bff0124-7f8b-4345-8a39-da9ba703973e'
 
 var opt = {
@@ -50,5 +50,6 @@ app.get('/', function (req, res) {
   });
 });
 
-app.listen(PORT);
-console.log('Running on http://localdocker:' + PORT);
+app.listen(PORT, function () {
+  console.log('Running on port: ' + PORT);
+});

@@ -23,11 +23,13 @@
   "homepage": "https://github.com/joshfinnie/screenshot.jfin.us",
   "dependencies": {
     "body-parser": "^1.5.2",
-    "express": "^4.6.1",
-    "hiredis": "^0.1.17",
+    "express": "^4.7.2",
+    "logfmt": "^1.1.2",
     "method-override": "^2.1.2",
-    "redis": "^0.11.0",
     "temp": "^0.8.0",
     "webshot": "^0.10.x"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }

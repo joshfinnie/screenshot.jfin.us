@@ -23,6 +23,7 @@
   "homepage": "https://github.com/joshfinnie/screenshot.jfin.us",
   "dependencies": {
     "body-parser": "^1.5.2",
+    "coffee-script": "^1.7.1",
     "express": "^4.7.2",
     "logfmt": "^1.1.2",
     "method-override": "^2.1.2",

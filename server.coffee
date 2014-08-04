@@ -17,7 +17,7 @@ validURL = (str) ->
     true
 
 PORT = Number(process.env.PORT or 1337)
-API_KEY = "8bff0124-7f8b-4345-8a39-da9ba703973e"
+API_KEY = process.env.API_KEY or "test"
 opt =
   shotSize:
     width: "all"

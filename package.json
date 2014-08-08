@@ -4,7 +4,7 @@
   "description": "A Node.js API that takes a screenshot of a requested page.",
   "main": "server.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "mocha --compilers coffee:coffee-script/register"
   },
   "repository": {
     "type": "git",
@@ -35,6 +35,8 @@
     "node": "0.10.x"
   },
   "devDependencies": {
-    "mocha": "^1.21.4"
+    "coffee-script": "^1.7.1",
+    "mocha": "^1.21.4",
+    "supertest": "^0.13.0"
   }
 }

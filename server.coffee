@@ -31,11 +31,13 @@ app.use methodOverride()
 app.use logfmt.requestLogger()
 app.get "/", (req, res) ->
   unless req.query.token is API_KEY
+    res.status 401
     res.json
       status: 401
       error: "Unauthorized"
     return res.end()
   unless req.query.url?
+    res.status 400
     res.json
       status: 400
       error: "Bad Request"
@@ -54,10 +56,12 @@ app.get "/", (req, res) ->
         res.write img, "binary"
         res.end()
   else
+    res.status 400
     res.json
       status: 400
       error: "Bad Request"
       data: "The URL you provided in not valid."
     res.end()
+module.exports = app
 app.listen PORT, ->
   console.log "Running on port: " + PORT

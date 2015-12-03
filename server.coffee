@@ -1,4 +1,5 @@
 express = require('express')
+path = require('path')
 bodyParser = require('body-parser')
 methodOverride = require('method-override')
 logfmt = require("logfmt")
@@ -26,10 +27,20 @@ opt =
 
 # App
 app = express()
+
+# Jade Setup
+app.set "views", path.join(__dirname, 'views')
+app.set "view engine", 'jade'
 app.use bodyParser.json()
 app.use methodOverride()
 app.use logfmt.requestLogger()
+
+# Home page
 app.get "/", (req, res) ->
+  res.render "index", {title: "Homepage"}
+
+# Screenshots
+app.get "/s", (req, res) ->
   unless req.query.token is API_KEY
     res.status 401
     res.json

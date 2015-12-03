@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title screenshot.jfin.us
+    meta(name='description', content='simple application to take screenshots of websites.')
+    link(rel='stylesheet', href='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    | <style>body{padding-top:60px;}</style>
+  body
+    div.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      div.container
+        div.navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="#")
+            | screenshot.jfin.us
+
+    block content
+
+    .container
+      .footer
+        hr
+        p &copy; 2014
+
+    script(src='https://code.jquery.com/jquery-1.11.1.min.js')
+    script(src='http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js')

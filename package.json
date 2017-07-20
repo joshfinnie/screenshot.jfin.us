@@ -1,14 +1,18 @@
 {
   "name": "screenshot.jfin.us",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A Node.js API that takes a screenshot of a requested page.",
   "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register"
+    "test": "tape tests/**/*.js",
+    "start": "node lib/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/joshfinnie/screenshot.jfin.us.git"
+    "url": "git+https://github.com/joshfinnie/screenshot.jfin.us.git"
   },
   "keywords": [
     "node.js",
@@ -20,23 +24,15 @@
   "bugs": {
     "url": "https://github.com/joshfinnie/screenshot.jfin.us/issues"
   },
-  "homepage": "https://github.com/joshfinnie/screenshot.jfin.us",
+  "homepage": "https://github.com/joshfinnie/screenshot.jfin.us#readme",
   "dependencies": {
-    "body-parser": "^1.5.2",
-    "coffee-script": "^1.7.1",
-    "express": "^4.7.2",
-    "logfmt": "^1.1.2",
-    "method-override": "^2.1.2",
-    "request": "^2.39.0",
-    "temp": "^0.8.0",
-    "webshot": "^0.10.x"
-  },
-  "engines": {
-    "node": "0.10.x"
+    "restify": "^5.0.0",
+    "restify-errors": "^4.3.0",
+    "restify-plugins": "^1.6.0",
+    "webshot": "^0.18.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.7.1",
-    "mocha": "^1.21.4",
-    "supertest": "^0.13.0"
+    "supertest": "^3.0.0",
+    "tape": "^4.7.0"
   }
 }

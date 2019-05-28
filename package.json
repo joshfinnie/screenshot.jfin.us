@@ -32,7 +32,7 @@
     "webshot": "^0.18.0"
   },
   "devDependencies": {
-    "supertest": "^3.0.0",
+    "supertest": "^4.0.2",
     "tape": "^4.7.0"
   }
 }

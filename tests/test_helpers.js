@@ -1,64 +1,74 @@
-'use strict'
-var test = require("tape")
-var helpers = require("../lib/helpers")
+var tape = require('tape');
+var _test = require('tape-promise').default; // <---- notice 'default'
+var test = _test(tape); // decorate tape
 
-test("checkUrl", function(t) {
-    t.same(helpers.checkUrl("aoeu"), false)
-    t.same(helpers.checkUrl("test.com"), true)
-    t.same(helpers.checkUrl("http://test.com"), true)
-    t.same(helpers.checkUrl("http://www.test.com"), true)
-    t.same(helpers.checkUrl("https://test.com"), true)
-    t.same(helpers.checkUrl("https://www.test.com"), true)
-    t.same(helpers.checkUrl("8.8.8.8"), true)
-    t.same(helpers.checkUrl("test.com:1337"), true)
-    t.same(helpers.checkUrl("8.8.8.8:1337"), true)
-    t.same(helpers.checkUrl("test.com/?test=ok&foo=bar"), true)
-    t.same(helpers.checkUrl("test.com/index.html"), true)
-    t.same(helpers.checkUrl("test.com/index.html#fragment"), true)
-    t.end()
-})
+const {checkUrl, validate} = require('../lib/helpers');
 
-test("validate", function(t) {
-    // url, but no access_token parameter
-    const expected1 = {
-        code: 'Unauthorized',
-        message: 'Access Token is invalid.'
-    }
-    helpers.validate({
-        url: "test.com"
-    }, (err) => {
-        t.same(err.body, expected1)
-    })
+test('checkUrl', (t) => {
+  t.same(checkUrl('aoeu'), false);
+  t.same(checkUrl('test.com'), true);
+  t.same(checkUrl('http://test.com'), true);
+  t.same(checkUrl('http://www.test.com'), true);
+  t.same(checkUrl('https://test.com'), true);
+  t.same(checkUrl('https://www.test.com'), true);
+  t.same(checkUrl('8.8.8.8'), true);
+  t.same(checkUrl('test.com:1337'), true);
+  t.same(checkUrl('8.8.8.8:1337'), true);
+  t.same(checkUrl('test.com/?test=ok&foo=bar'), true);
+  t.same(checkUrl('test.com/index.html'), true);
+  t.same(checkUrl('test.com/index.html#fragment'), true);
+  t.end();
+});
 
-    // access_token, but no url parameter
-    const expected2 = {
-        code: 'BadRequest',
-        message: 'Please include a URL as a query parameter.'
-    }
-    helpers.validate({
-        access_token: "test"
-    }, (err) => {
-        t.same(err.body, expected2)
-    })
+test('validate no token', async (t) => {
+  t.plan(1);
+  const expected1 = 'Access Token is invalid.';
+  try {
+    await validate({
+      url: 'test',
+    });
+  } catch (e) {
+    t.same(e.message, expected1);
+  }
+  t.end();
+});
 
-    // bad URL
-    const expected3 = {
-        code: 'BadRequest',
-        message: 'The passed URL is malformed.'
-    }
-   helpers.validate({
-        access_token: "test",
-        url: "aoeu"
-    }, (err) => {
-        t.same(err.body, expected3)
-    }) 
+test('validate no url', async (t) => {
+  t.plan(1);
+  const expected1 = 'Please include a URL as a query parameter.';
+  try {
+    await validate({
+      access_token: 'test',
+    });
+  } catch (e) {
+    t.same(e.message, expected1);
+  }
+  t.end();
+});
 
-    // everything a-okay
-    helpers.validate({
-        access_token: "test",
-        url: "test.com"
-    }, (err) => {
-        t.same(err, null)
-    })
-    t.end()
-})
+test('validate malformed url', async (t) => {
+  t.plan(1);
+  const expected1 = 'The passed URL is malformed.';
+  try {
+    await validate({
+      access_token: 'test',
+      url: 'aoeu',
+    });
+  } catch (e) {
+    t.same(e.message, expected1);
+  }
+  t.end();
+});
+
+test('validate everything okay', async (t) => {
+  t.plan(1);
+  try {
+    const url = await validate({
+      access_token: 'test',
+      url: 'google.com',
+    });
+    t.same(url, 'google.com');
+  } catch (e) {
+  }
+  t.end();
+});

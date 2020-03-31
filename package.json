@@ -1,6 +1,6 @@
 {
   "name": "screenshot.jfin.us",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A Node.js API that takes a screenshot of a requested page.",
   "main": "server.js",
   "directories": {
@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "tape tests/**/*.js",
-    "start": "node lib/server.js"
+    "start": "node lib/server.js",
+    "start:dev": "nodemon lib/server.js"
   },
   "repository": {
     "type": "git",
@@ -26,13 +27,21 @@
   },
   "homepage": "https://github.com/joshfinnie/screenshot.jfin.us#readme",
   "dependencies": {
-    "restify": "^5.0.0",
-    "restify-errors": "^4.3.0",
-    "restify-plugins": "^1.6.0",
-    "webshot": "^0.18.0"
+    "restify": "^8.5.1",
+    "restify-errors": "^8.0.2",
+    "webshot-node": "^0.18.2"
   },
   "devDependencies": {
-    "supertest": "^3.0.0",
-    "tape": "^4.7.0"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.18.2",
+    "supertest": "^4.0.2",
+    "tape": "^4.13.2",
+    "tape-promise": "^4.0.0"
   }
 }
